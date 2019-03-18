@@ -1,20 +1,21 @@
-from src.examples.bls.bls_utils import *
+from src.examples.bls.bls_bn128_utils import *
+from py_ecc import bn128
 
 
-def key_gen(priv=9078879759034877109383407430680751358246) -> (int, (FQ2, FQ2)):
-    pub = ec.multiply(g2, priv)
-    return priv, pub
+def key_gen(privkey=9078879759034877109383407430680751358246, ec=bn128) -> (int, (FQ2, FQ2)):
+    pubkey = ec.multiply(ec.G2, privkey)
+    return privkey, pubkey
 
 
-def sign(msg, priv: int) -> (FQ, FQ):
-    digest = hash_to_ec_g1(msg)
-    return multiply(digest, priv)
+def sign(message, privkey: int, ec=bn128) -> (FQ, FQ):
+    digest = hash_to_ec_g1(message)
+    return ec.multiply(digest, privkey)
 
 
-def verify(msg, sig: (FQ, FQ), pub: (FQ2, FQ2)) -> bool:
-    digest = hash_to_ec_g1(int.from_bytes(msg.encode(), byteorder='big'))
-    lhs = pairing(pub, digest)
-    rhs = pairing(g2, sig)
+def verify(message, signature: (FQ, FQ), pubkey: (FQ2, FQ2), ec=bn128) -> bool:
+    digest = hash_to_ec_g1(message)
+    lhs = ec.pairing(pubkey, digest)
+    rhs = ec.pairing(ec.G2, signature)
     return lhs == rhs
 
 
