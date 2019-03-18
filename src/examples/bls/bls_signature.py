@@ -1,4 +1,4 @@
-from src.examples.bls.bls_bn128_utils import *
+from src.examples.bls.bls_utils import *
 from py_ecc import bn128
 
 
