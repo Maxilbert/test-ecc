@@ -4,7 +4,7 @@ from py_ecc import bn128 as ec
 
 def main():
     # resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
-    # sys.setrecurionlimit(10**6)
+    # sys.setrecursionlimit(10**6)
     g1 = ec.G1
     g2 = ec.G2
 
